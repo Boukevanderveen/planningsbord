@@ -8,6 +8,7 @@
 <body>
 <?php
     //TEST COMMIT
+    //TEST TWEE
     // Als db.php niet in de directory zit gaat de code niet verder
     require('db.php');
 
