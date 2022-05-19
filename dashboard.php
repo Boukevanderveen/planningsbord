@@ -10,6 +10,7 @@ include("auth_session.php");
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+    <!-- eet poep, groetjes Byron -->
     <div class="form">
         <!-- Haalt username uit $_SESSION variable-->
         <p>Hey, <?php echo $_SESSION['username']; ?>!</p>
