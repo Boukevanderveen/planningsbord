@@ -1,2 +1,29 @@
 MYSQL wijzigingen:
 
+18-5-2022
+
+    CREATE TABLE IF NOT EXISTS users (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    username varchar(50) NOT NULL,
+    email varchar(50) NOT NULL,
+    password varchar(50) NOT NULL,
+    create_datetime datetime NOT NULL,
+    PRIMARY KEY (id)
+);
+
+19-5-2022
+
+	CREATE TABLE `cards` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+	`description` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+	`isToDo` BOOLEAN,
+	`isDoing` BOOLEAN,
+	`isReview` BOOLEAN,
+	`isDone` BOOLEAN,
+	`user1` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+	`user2` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+	`user3` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+	`user4` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+	PRIMARY KEY (id)
+);
