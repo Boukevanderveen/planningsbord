@@ -1,17 +1,21 @@
+<?php 
+include("auth_session.php");
+require('db.php');
+
+?>
 <!DOCTYPE html>
+<script src="scriptfile.js">
+</script>
 <html>
 <head>
 <p id="myP2" class="testclass" onmousedown="mouseDown()" onmouseup="mouseUp()">
 
-    <div id="div1" class="div1class" onmousedown=""> 
-    </div>
     <meta charset="utf-8">
     <title>Dashboard - Client area</title>
-<link rel="stylesheet" href="styling/style.css"/>
+<link rel="stylesheet" href="styling.css"/>
 
-    <p id="text">test <p>
 </head>
-<body>
+<body onload="hideShow()">
 <!-- 
     <div class="form">
         <p>Hallo, <?php //echo $_SESSION['username']; ?>!</p>
@@ -33,13 +37,20 @@
         </div>
 </html>
 
-
+<?php 
+displayCards($con);
+?>
+<?php 
+displayCards2($con);
+?>
+<?php 
+displayCards3($con);
+?>
 <?php
 
 // CREATE CARD CODE
 
-include("auth_session.php");
-require('db.php');
+
 if (isset($_REQUEST['name'])) {
     // removes backslashes
     $name = $_REQUEST['name'];
@@ -56,9 +67,19 @@ if (isset($_REQUEST['name'])) {
     }
 }
 
+
+if (isset($_REQUEST['name'])) 
+{
+
+}
+
+
+
 // DISPLAY CARD CODE
 
-       $sql = "SELECT * FROM cards";
+    function displayCards($con)
+    {
+       $sql = "SELECT * FROM cards WHERE istoDo  = 1";
        $result = mysqli_query($con, $sql);
        echo "<br>";
        while ($row = mysqli_fetch_assoc($result)) { 
@@ -66,136 +87,80 @@ if (isset($_REQUEST['name'])) {
 
            foreach ($result as $value) 
            {
-                if ($value['isDoing'] == true) 
-                {
+                
                 $divID = $value['id']; 
-
-               echo "<div id='" . $divID . "' class='cardsisDoing'>  <td>" . $value['name'] . " </td> <br> <td>" . $value['description'] . "</td> ";                    
-               echo "</div>";
-               echo "<br>";
-
-                } 
-                else if ($value['isReview'] == true) 
-                {
-                    $divID = $value['id']; 
-
-                    echo "<div id='" . $divID . "' class='cardsisReview'>  <td>" . $value['name'] . " </td> <br> <td>" . $value['description'] . "</td> ";                    
-                    echo "</div>";
-                    echo "<br>";
-                } 
-                else if ($value['isDone'] == true)
-                {
-                    $divID = $value['id']; 
-
-                    echo "<div style='position: relative;' id='" . $divID . "' class='cardsisDone'>  <td>" . $value['name'] . " </td> <br> <td>" . $value['description'] . "</td> ";                    
-                    echo "</div>";
-                    echo "<br>";
-                }
-                else
-                {
-                    $divID = $value['id']; 
-
-               echo "<div style='position: relative;' id='" . $divID . "' class='cards'>  <td>" . $value['name'] . " </td> <br> <td>" . $value['description'] . "</td> ";                    
-               echo "</div>";
-               echo "<br>";
-                }
-
-
                
-            
-        
+               echo '<div id=' . $divID . ' class=cardsisDoing onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
+               echo "</div>";
+               echo "<br><br><br><br><br><br>";
+                
+                }
+       }
        echo "<br>";
-            }
        echo "</tr>";
        echo "<br>";
+    }
 
-       }
+    function displayCards2($con)
+    {  
+        $sql = "SELECT * FROM cards WHERE isDoing  = 1";
+        $result = mysqli_query($con, $sql);
+        echo "<br>";
+        while ($row = mysqli_fetch_assoc($result)) { 
+            echo "<tr>";
+    
+            foreach ($result as $value) 
+            {
+                 
+                 $divID = $value['id']; 
+    
+                echo '<div id=' . $divID . ' class=cardsisReview onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
+                echo "</div>";
+                echo "<br><br><br><br><br><br><br>";
+                 
+                 }
+        }
+        echo "<br>";
+        echo "</tr>";
+        echo "<br>";
+    }
+
+    function displayCards3($con)
+    {
+        $sql = "SELECT * FROM cards WHERE isDone  = 1";
+        $result = mysqli_query($con, $sql);
+        echo "<br>";
+        while ($row = mysqli_fetch_assoc($result)) { 
+            echo "<tr>";
+    
+            foreach ($result as $value) 
+            {
+                 
+                 $divID = $value['id']; 
+    
+                echo '<div id=' . $divID . ' class=cardsisDone onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
+                echo "</div>";
+                echo "<br><br><br><br><br><br><br>";
+                 
+                 }
+        }
+        echo "<br>";
+        echo "</tr>";
+        echo "<br>";
+    }
+       
+       function updatetoIsDoing($divID)
+       {
+       //Update de is doing bool naar true
+       $sql = "UPDATE cards SET isDoing='1' WHERE id=$divID";    
+           $result   = mysqli_query($con, $query);
+           if ($result) {
+           } else {
+           echo "<div class='form'>
+               <h3>Required fields are missing.</h3><br/>
+               </div>";
+           }
+        }
+    
+    
 ?>
-
-
-
-
-
-
-<script>
-
-function hideShow() {
-  var x = document.getElementById("myDIV");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-
-// Make the DIV element draggable:
-dragElement(document.getElementById("div1"));
-
-function dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "header")) {
-    // if present, the header is where you move the DIV from:
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-  } else {
-    // otherwise, move the DIV from anywhere inside the DIV:
-    elmnt.onmousedown = dragMouseDown;
-  }
-
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-  }
-
-  function closeDragElement() {
-    // stop moving when mouse button is released:
-    document.onmouseup = null;
-    document.onmousemove = null;
-    draggedObject();
-  }
-}
-
-function draggedObject()
-{
-    var rect = div1.getBoundingClientRect();
-    $lol = rect.left;
-    if ($lol > 350 && $lol < 600)
-    {
-    document.getElementById("text").innerHTML = "isDoing " + $lol;
-    return;
-    }
-    if ($lol > 600 && $lol <900)
-    {
-    document.getElementById("text").innerHTML = "isReview " + $lol;
-    }
-    if ($lol > 900)
-    {
-    document.getElementById("text").innerHTML = "isDone " + $lol;
-    }
-   
-}
-
-</script>
-
-
-
-<style>
-</style>
