@@ -1,3 +1,23 @@
+var script = document.createElement('script');
+script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+document.getElementsByTagName('head')[0].appendChild(script);
+
+
+function create() {
+  var name = 'BABA'; 
+  var last_name = 'BOOEY';
+  var dataString = 'name='+name+'&last_name='+last_name;
+
+  $.ajax({
+      type:'POST',
+      data:dataString,
+      url:'insert.php',
+      success:function(data) {
+          alert(data);
+      }
+  });
+}
+
 function hideShow() {
   var x = document.getElementById("myDIV");
   if (x.style.display === "none") {
@@ -7,6 +27,10 @@ function hideShow() {
   }
 }
 
+function alerrt()
+{
+  alert("LOLEFRE");
+}
 
 function startDrag($divID)
 {
@@ -15,7 +39,7 @@ function startDrag($divID)
     dragElement(document.getElementById(selectedCard));
 
 
-function dragElement(elmnt) {
+  function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   if (document.getElementById(elmnt.id + "header")) {
     // if present, the header is where you move the DIV from:
@@ -55,28 +79,63 @@ function dragElement(elmnt) {
     document.onmousemove = null;
     draggedObject(selectedCard);
   }
-}
 
-function draggedObject(selectedCard)
-{
+
+
+
+  var selectedCardId = JSON.stringify(selectedCard);
+  $.ajax({
+      url: 'dashboard.php',
+      type: 'post',
+      data: {selectedCard: selectedCardId},
+      success: function(response){
+        
+      }
+  });
+  }
+
+  function draggedObject(selectedCard)
+  {
     var rect = document.getElementById(selectedCard).getBoundingClientRect();
     $lol = rect.left;
+
+    if ($lol < 350)
+    {
+      var targetStatus = 'isToDo';
+      PostToUpdatephp(selectedCard, targetStatus);
+    }
+
     if ($lol > 350 && $lol < 600)
     {
-        var updatetoIsDoing  = function(selectedCard) 
-        
-{
-}
+      var targetStatus = 'isDoing';
+      PostToUpdatephp(selectedCard, targetStatus);
     }
 
     if ($lol > 600 && $lol <900)
     {
-    document.getElementById("text").innerHTML = "isReview " + $lol;
+      var targetStatus = 'isReview';
+      PostToUpdatephp(selectedCard, targetStatus);
+
     }
     if ($lol > 900)
     {
-    document.getElementById("text").innerHTML = "isDone " + $lol;
+      var targetStatus = 'isDone';
+      PostToUpdatephp(selectedCard, targetStatus);
     }
    
+  }
 }
+
+function PostToUpdatephp(selectedCard, targetStatus)
+{
+  var dataString = 'selectedCard='+selectedCard+'&targetStatus='+targetStatus;
+
+  $.ajax({
+      type:'POST',
+      data:dataString,
+      url:'insert.php',
+      success:function(data) {
+          alert(data);
+      }
+  });
 }
