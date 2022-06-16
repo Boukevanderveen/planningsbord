@@ -1,10 +1,17 @@
+<html>
+<script type="text/javascript" src=".js"></script>
+</html>
 <?php 
 include("auth_session.php");
 include("header.php");
 require('db.php');
-
 ?>
 <!DOCTYPE html>
+<p id="toDoTag">To Do</p>
+<p id="doingTag">Doing</p>
+<p id="reviewTag">For Review</p>
+<p id="doneTag">Done</p>
+
 
 <script src="scriptfile.js">
 </script>
@@ -69,6 +76,9 @@ if (isset($_REQUEST['name'])) {
                  VALUES ('$name', '$description', 1)";
     $result   = mysqli_query($con, $query);
     if ($result) {
+        echo '<script type="text/javascript">',
+        refreshPage();
+        '</script>';
     } else {
         echo "<div class='form'>
               <h3>Required fields are missing.</h3><br/>
@@ -83,6 +93,7 @@ if (isset($_REQUEST['name'])) {
 
     function displayistoDoCards($con)
     {
+       $position = 12;
        $sql = "SELECT * FROM cards WHERE istoDo  = 1";
        $result = mysqli_query($con, $sql);
        echo "<br>";
@@ -92,13 +103,16 @@ if (isset($_REQUEST['name'])) {
            foreach ($result as $value) 
            {
                 
-                $divID = $value['id']; 
-               
-               echo '<div id=' . $divID . ' class=cardsisDoing onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
-               echo "</div>";
-               echo "<br><br><br><br><br><br>";
-                
-                }
+            $position += 13;
+                 
+            $divID = $value['id']; 
+
+            echo '<div id=' . $divID . ' style="position: absolute; left: 10%; top:' . $position. '%" class=cardsistoDo onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
+            echo "</div>";
+            echo '<script type="text/javascript">',
+            '</script>';
+
+            }
        }
        echo "<br>";
        echo "</tr>";
@@ -107,21 +121,25 @@ if (isset($_REQUEST['name'])) {
 
     function displayisDoingCards($con)
     {  
+        $position = 12;
         $sql = "SELECT * FROM cards WHERE isDoing  = 1";
         $result = mysqli_query($con, $sql);
         echo "<br>";
         while ($row = mysqli_fetch_assoc($result)) { 
+
             echo "<tr>";
     
             foreach ($result as $value) 
             {
                  
-                 $divID = $value['id']; 
-    
-                echo '<div id=' . $divID . ' class=cardsisReview onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
-                echo "</div>";
-                echo "<br><br><br><br><br><br><br>";
+                $position += 13;
                  
+                $divID = $value['id']; 
+    
+                echo '<div id=' . $divID . ' style="position: absolute; left: 30%; top:' . $position. '%" class=cardsisDoing onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
+                echo "</div>";
+                echo '<script type="text/javascript">',
+                '</script>';
                  }
         }
         echo "<br>";
@@ -131,6 +149,7 @@ if (isset($_REQUEST['name'])) {
 
     function displayisReviewCards($con)
     {  
+        $position = 12;
         $sql = "SELECT * FROM cards WHERE isReview  = 1";
         $result = mysqli_query($con, $sql);
         echo "<br>";
@@ -140,12 +159,14 @@ if (isset($_REQUEST['name'])) {
             foreach ($result as $value) 
             {
                  
-                 $divID = $value['id']; 
-    
-                echo '<div id=' . $divID . ' class=cardsisReview onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
-                echo "</div>";
-                echo "<br><br><br><br><br><br><br>";
+                $position += 13;
                  
+                $divID = $value['id']; 
+   
+               echo '<div id=' . $divID . ' style="position: absolute; left: 50%; top:' . $position. '%" class=cardsisReview onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
+               echo "</div>";
+               echo '<script type="text/javascript">',
+               '</script>';
                  }
         }
         echo "<br>";
@@ -155,6 +176,7 @@ if (isset($_REQUEST['name'])) {
 
     function displayisDoneCards($con)
     {
+        $position = 12;
         $sql = "SELECT * FROM cards WHERE isDone  = 1";
         $result = mysqli_query($con, $sql);
         echo "<br>";
@@ -163,13 +185,13 @@ if (isset($_REQUEST['name'])) {
     
             foreach ($result as $value) 
             {
+                 $position += 13;
                  
                  $divID = $value['id']; 
     
-                echo '<div id=' . $divID . ' class=cardsisDone onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
+                echo '<div id=' . $divID . ' style="position: absolute; left: 70%; top:' . $position. '%" class=cardsisDone onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
                 echo "</div>";
-                echo "<br><br><br><br><br><br><br>";
-                 
+
                  }
         }
         echo "<br>";
