@@ -1,9 +1,11 @@
 <?php 
 include("auth_session.php");
+include("header.php");
 require('db.php');
 
 ?>
 <!DOCTYPE html>
+
 <script src="scriptfile.js">
 </script>
 <html>
@@ -12,6 +14,7 @@ require('db.php');
 
     <meta charset="utf-8">
     <title>Dashboard - Client area</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="styling.css"/>
 
 </head>
@@ -23,7 +26,6 @@ require('db.php');
     </div>
 //-->
 
-<div id="newcardButton" onclick="hideShow()">Nieuwe Kaart</button> </div>
 <div id="myDIV">
         <form class="form" action="" method="post">
 
@@ -37,16 +39,24 @@ require('db.php');
         </div>
 </html>
 
+
 <?php 
-displayCards($con);
-?>
-<?php 
-displayCards2($con);
-?>
-<?php 
-displayCards3($con);
+displayistoDoCards($con);
+
+displayisDoingCards($con);
+
+displayisReviewCards($con);
+
+displayisDoneCards($con);
+
 ?>
 <?php
+
+if (isset($_REQUEST['id'])) 
+{
+   echo 'alerrt()';
+}
+  
 
 // CREATE CARD CODE
 
@@ -55,8 +65,8 @@ if (isset($_REQUEST['name'])) {
     // removes backslashes
     $name = $_REQUEST['name'];
     $description = $_REQUEST['description'];;
-    $query    = "INSERT into `cards` (name, description)
-                 VALUES ('$name', '$description')";
+    $query    = "INSERT into `cards` (name, description, isToDo)
+                 VALUES ('$name', '$description', 1)";
     $result   = mysqli_query($con, $query);
     if ($result) {
     } else {
@@ -68,16 +78,10 @@ if (isset($_REQUEST['name'])) {
 }
 
 
-if (isset($_REQUEST['name'])) 
-{
-
-}
-
-
 
 // DISPLAY CARD CODE
 
-    function displayCards($con)
+    function displayistoDoCards($con)
     {
        $sql = "SELECT * FROM cards WHERE istoDo  = 1";
        $result = mysqli_query($con, $sql);
@@ -101,7 +105,7 @@ if (isset($_REQUEST['name']))
        echo "<br>";
     }
 
-    function displayCards2($con)
+    function displayisDoingCards($con)
     {  
         $sql = "SELECT * FROM cards WHERE isDoing  = 1";
         $result = mysqli_query($con, $sql);
@@ -125,7 +129,31 @@ if (isset($_REQUEST['name']))
         echo "<br>";
     }
 
-    function displayCards3($con)
+    function displayisReviewCards($con)
+    {  
+        $sql = "SELECT * FROM cards WHERE isReview  = 1";
+        $result = mysqli_query($con, $sql);
+        echo "<br>";
+        while ($row = mysqli_fetch_assoc($result)) { 
+            echo "<tr>";
+    
+            foreach ($result as $value) 
+            {
+                 
+                 $divID = $value['id']; 
+    
+                echo '<div id=' . $divID . ' class=cardsisReview onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
+                echo "</div>";
+                echo "<br><br><br><br><br><br><br>";
+                 
+                 }
+        }
+        echo "<br>";
+        echo "</tr>";
+        echo "<br>";
+    }
+
+    function displayisDoneCards($con)
     {
         $sql = "SELECT * FROM cards WHERE isDone  = 1";
         $result = mysqli_query($con, $sql);
@@ -147,20 +175,5 @@ if (isset($_REQUEST['name']))
         echo "<br>";
         echo "</tr>";
         echo "<br>";
-    }
-       
-       function updatetoIsDoing($divID)
-       {
-       //Update de is doing bool naar true
-       $sql = "UPDATE cards SET isDoing='1' WHERE id=$divID";    
-           $result   = mysqli_query($con, $query);
-           if ($result) {
-           } else {
-           echo "<div class='form'>
-               <h3>Required fields are missing.</h3><br/>
-               </div>";
-           }
-        }
-    
-    
+    }   
 ?>

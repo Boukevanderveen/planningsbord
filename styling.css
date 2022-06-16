@@ -129,21 +129,6 @@
       width: 200px;
       height: 80px;
   }
-  
-  #newcardButton
-  {
-      color: #fff;
-      background: #55a1ff;
-      border: 0;
-      outline: 0;
-      width: 80px;
-      height: 50px;
-      font-size: 10px;
-      text-align: center;
-      cursor: pointer;
-      position: relative;
-      left: 50%;
-  }
   #myDIV
   {
       position:absolute;
@@ -167,4 +152,20 @@
   {
   position: relative;
   left: 60px;
+  }
+
+  #newcardButton
+  {
+      color: #fff;
+      background: #55a1ff;
+      border-radius: 5px;
+      border: 0;
+      outline: 0;
+      width: 75px;
+      height: 40px;
+      font-size: 10px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      left: 2%;
   }
