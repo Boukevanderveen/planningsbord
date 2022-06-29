@@ -1,4 +1,3 @@
-
 <html>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="menu.php">Planningbord</a>
@@ -14,16 +13,13 @@
       <li class="nav-item active">
         <a class="nav-link" href="#">Teams <span class="sr-only">(current)</span></a>
       </li>
-    </ul>
-    <li class="nav-item active">
-        <a class="nav-link" id="setingsbutton" href="boardsettings.php">⚙ Board settings<span class="sr-only">(current)</span></a>
+      <li class="nav-item active">
+        <a class="nav-link" href="Profile.php">Profiel <span class="sr-only">(current)</span></a>
       </li>
+    </ul>
     <form class="form-inline my-2 my-lg-0">
       <a href="logout.php" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Logout</a>
     </form>
   </div>
 </nav>
-
-<nav class="navbar navbar-expand-lg navbar-secondary bg-secondary">
-<div id="newcardButton" class="btn btn-outline-primary my-2 my-sm-0" onclick="hideShowAddCard()">Nieuwe Kaart</button> </div>
-</nav>
+</html>

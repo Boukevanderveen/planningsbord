@@ -2,35 +2,58 @@ var script = document.createElement('script');
 script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
 document.getElementsByTagName('head')[0].appendChild(script);
 
-
-function create() {
-  var name = 'BABA'; 
-  var last_name = 'BOOEY';
-  var dataString = 'name='+name+'&last_name='+last_name;
-
-  $.ajax({
-      type:'POST',
-      data:dataString,
-      url:'insert.php',
-      success:function(data) {
-          alert(data);
-      }
-  });
-}
-
-function hideShow() {
-  var x = document.getElementById("myDIV");
+function hideShowAddCard() 
+{
+  var x = document.getElementById("addCardDiv");
   if (x.style.display === "none") {
     x.style.display = "block";
   } else {
     x.style.display = "none";
+    
   }
 }
 
-function alerrt()
+function hideShowAddMember() 
 {
-  alert("LOLEFRE");
+  var x = document.getElementById("addMemberDiv");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+    
+  }
 }
+
+function acceptInvitation($boardId)
+{
+  var idOfBoard = $boardId;
+  var dataString = 'idOfBoard='+idOfBoard;
+
+  $.ajax({
+      type:'POST',
+      data:dataString,
+      url:'addMemberToBoard.php',
+      success:function(data) {
+        refreshPage();
+      }
+  });
+}
+
+function declineInvitation($boardId)
+{
+  var idOfBoard = $boardId;
+  var dataString = 'idOfBoard='+idOfBoard;
+
+  $.ajax({
+      type:'POST',
+      data:dataString,
+      url:'deleteinvitation.php',
+      success:function(data) {
+        refreshPage();
+      }
+  });
+}
+
 
 function startDrag($divID)
 {
@@ -80,9 +103,6 @@ function startDrag($divID)
     draggedObject(selectedCard);
   }
 
-
-
-
   var selectedCardId = JSON.stringify(selectedCard);
   $.ajax({
       url: 'dashboard.php',
@@ -97,27 +117,27 @@ function startDrag($divID)
   function draggedObject(selectedCard)
   {
     var rect = document.getElementById(selectedCard).getBoundingClientRect();
-    $lol = rect.left;
+    $leftposition = rect.left;
 
-    if ($lol < 350)
+    if ($leftposition < 350)
     {
       var targetStatus = 'isToDo';
       PostToUpdatephp(selectedCard, targetStatus);
     }
 
-    if ($lol > 350 && $lol < 600)
+    if ($leftposition > 350 && $leftposition < 600)
     {
       var targetStatus = 'isDoing';
       PostToUpdatephp(selectedCard, targetStatus);
     }
 
-    if ($lol > 600 && $lol <900)
+    if ($leftposition > 600 && $leftposition <900)
     {
       var targetStatus = 'isReview';
       PostToUpdatephp(selectedCard, targetStatus);
 
     }
-    if ($lol > 900)
+    if ($leftposition > 900)
     {
       var targetStatus = 'isDone';
       PostToUpdatephp(selectedCard, targetStatus);
@@ -133,9 +153,37 @@ function PostToUpdatephp(selectedCard, targetStatus)
   $.ajax({
       type:'POST',
       data:dataString,
-      url:'insert.php',
+      url:'update.php',
       success:function(data) {
-          alert(data);
+        refreshPage();
       }
   });
+}
+
+function runPHP($boardId)
+{
+  var boardId = $boardId;
+  var dataString = 'boardId='+boardId;
+
+  $.ajax({
+    type:'POST',
+    data:dataString,
+    url:'navigatetoboard.php',
+    success:function(data) {
+      window.location.href = 'http://localhost/planningtoolbord/dashboard.php';
+    }
+});
+  
+}
+
+
+function log($board)
+{
+alert($board);
+}
+
+function refreshPage()
+{
+  window.location.reload(true); //true sets request type to GET
+
 }

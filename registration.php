@@ -24,6 +24,9 @@
         $result   = mysqli_query($con, $query);
         //Als de $query succesvol is geweest runt het de onderste code.
         if ($result) {
+
+            $sql = "INSERT INTO profilepicture (username, filename) VALUES ('$username', 'default.png')";
+            mysqli_query($con, $sql);
             echo "<div class='form'>
                   <h3>You are registered successfully.</h3><br/>
                   <p class='link'>Click here to <a href='login.php'>Login</a></p>

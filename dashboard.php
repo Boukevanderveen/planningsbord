@@ -1,10 +1,10 @@
 <html>
-<script type="text/javascript" src=".js"></script>
 </html>
 <?php 
 include("auth_session.php");
 include("header.php");
 require('db.php');
+
 ?>
 <!DOCTYPE html>
 <p id="toDoTag">To Do</p>
@@ -12,6 +12,9 @@ require('db.php');
 <p id="reviewTag">For Review</p>
 <p id="doneTag">Done</p>
 
+
+
+<div id="newcardButton" class="btn btn-outline-primary my-2 my-sm-0" onclick="hideShowAddMember()">Nieuw Lid Toevoegen</button> </div>
 
 <script src="scriptfile.js">
 </script>
@@ -25,7 +28,7 @@ require('db.php');
 <link rel="stylesheet" href="styling.css"/>
 
 </head>
-<body onload="hideShow()">
+<body onload="hideShowAddCard(), hideShowAddMember()">
 <!-- 
     <div class="form">
         <p>Hallo, <?php //echo $_SESSION['username']; ?>!</p>
@@ -33,7 +36,7 @@ require('db.php');
     </div>
 //-->
 
-<div id="myDIV">
+<div id="addCardDiv">
         <form class="form" action="" method="post">
 
         <h1 class="login-title">Voeg een kaart toe</h1>
@@ -43,37 +46,62 @@ require('db.php');
         <input type="submit" name="submit" value="Voeg kaart toe" class="login-button">
 
         </form>
+</div>
+
+<div id="addMemberDiv">
+        <form class="form" action="" method="post">
+
+        <h1 class="login-title">Nodig leden uit</h1>
+        <input type="text" class="login-input" name="username" placeholder="username" required />
+
+        <input type="submit" name="submit" value="Nodig lid uit" class="login-button">
+
+        </form>
         </div>
 </html>
 
 
 <?php 
-displayistoDoCards($con);
+$boardId = $_SESSION["board"];
 
-displayisDoingCards($con);
+displayistoDoCards($con, $boardId);
 
-displayisReviewCards($con);
+displayisDoingCards($con, $boardId);
 
-displayisDoneCards($con);
+displayisReviewCards($con, $boardId);
+
+displayisDoneCards($con, $boardId);
 
 ?>
 <?php
 
-if (isset($_REQUEST['id'])) 
-{
-   echo 'alerrt()';
-}
-  
-
 // CREATE CARD CODE
-
 
 if (isset($_REQUEST['name'])) {
     // removes backslashes
     $name = $_REQUEST['name'];
     $description = $_REQUEST['description'];;
-    $query    = "INSERT into `cards` (name, description, isToDo)
-                 VALUES ('$name', '$description', 1)";
+    $query    = "INSERT into `cards` (name, description, boardId, isToDo)
+                 VALUES ('$name', '$description', '$boardId', 1)";
+    $result   = mysqli_query($con, $query);
+    if ($result) {
+        echo '<script type="text/javascript">',
+        header("Location: dashboard.php");        '</script>';
+    } else {
+        echo "<div class='form'>
+              <h3>Required fields are missing.</h3><br/>
+              </div>";
+    }
+}
+
+// CREATE INVITE CODE
+
+if (isset($_REQUEST['username'])) {
+    // removes backslashes
+    $username = $_REQUEST['username'];
+    $query    = "INSERT into `invites` (username, boardId)
+                 VALUES ('$username', '$boardId')";
+
     $result   = mysqli_query($con, $query);
     if ($result) {
         echo '<script type="text/javascript">',
@@ -82,7 +110,6 @@ if (isset($_REQUEST['name'])) {
     } else {
         echo "<div class='form'>
               <h3>Required fields are missing.</h3><br/>
-              <p class='link'>Click here to <a href='registration.php'>registration</a> again.</p>
               </div>";
     }
 }
@@ -91,21 +118,22 @@ if (isset($_REQUEST['name'])) {
 
 // DISPLAY CARD CODE
 
-    function displayistoDoCards($con)
+    function displayistoDoCards($con, $boardId)
     {
        $position = 12;
-       $sql = "SELECT * FROM cards WHERE istoDo  = 1";
+       $sql = "SELECT * FROM cards WHERE istoDo  = 1 AND boardId = $boardId;";
        $result = mysqli_query($con, $sql);
        echo "<br>";
        while ($row = mysqli_fetch_assoc($result)) { 
            echo "<tr>";
-
+            
            foreach ($result as $value) 
            {
                 
             $position += 13;
                  
             $divID = $value['id']; 
+            $board = $_SESSION["board"];
 
             echo '<div id=' . $divID . ' style="position: absolute; left: 10%; top:' . $position. '%" class=cardsistoDo onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
             echo "</div>";
@@ -119,10 +147,10 @@ if (isset($_REQUEST['name'])) {
        echo "<br>";
     }
 
-    function displayisDoingCards($con)
+    function displayisDoingCards($con, $boardId)
     {  
         $position = 12;
-        $sql = "SELECT * FROM cards WHERE isDoing  = 1";
+        $sql = "SELECT * FROM cards WHERE isDoing  = 1 AND boardId = $boardId";
         $result = mysqli_query($con, $sql);
         echo "<br>";
         while ($row = mysqli_fetch_assoc($result)) { 
@@ -147,10 +175,10 @@ if (isset($_REQUEST['name'])) {
         echo "<br>";
     }
 
-    function displayisReviewCards($con)
+    function displayisReviewCards($con, $boardId)
     {  
         $position = 12;
-        $sql = "SELECT * FROM cards WHERE isReview  = 1";
+        $sql = "SELECT * FROM cards WHERE isReview  = 1 AND boardId = $boardId";
         $result = mysqli_query($con, $sql);
         echo "<br>";
         while ($row = mysqli_fetch_assoc($result)) { 
@@ -174,17 +202,19 @@ if (isset($_REQUEST['name'])) {
         echo "<br>";
     }
 
-    function displayisDoneCards($con)
+    function displayisDoneCards($con, $boardId)
     {
         $position = 12;
-        $sql = "SELECT * FROM cards WHERE isDone  = 1";
+        $sql = "SELECT * FROM cards WHERE isDone  = 1 AND boardId = $boardId";
         $result = mysqli_query($con, $sql);
         echo "<br>";
         while ($row = mysqli_fetch_assoc($result)) { 
             echo "<tr>";
-    
+            
+            //Print elke card record met de name en description. Met onmouseover dat startDrag roept en de gezette ID zonder hoeven te klikken voor het draggen.
             foreach ($result as $value) 
             {
+                //Loopt de $position in for each en wordt groter bij elke kaart dat geloopt is zodat de positie elke keer meer naar onder is.
                  $position += 13;
                  
                  $divID = $value['id']; 
