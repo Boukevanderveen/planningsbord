@@ -54,7 +54,7 @@ if (isset($_POST['upload'])) {
  
     $filename = $_FILES["uploadfile"]["name"];
     $tempname = $_FILES["uploadfile"]["tmp_name"];
-    +    $folder = "./profilepictures/" . $filename;
+    $folder = "./profilepictures/" . $filename;
   
     // Get all the submitted data from the form
     //$sql = "INSERT INTO profilepicture (filename, username) VALUES ('$filename', '$username')";

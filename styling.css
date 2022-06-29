@@ -47,27 +47,10 @@
       font-weight: normal;
       text-align: center;
   }
-  #addCardDiv
-  {
-      height: 0px;
-      width: 0px;
-      position: absolute;
-      top: 30%;
-      left: 40%;
+  #addCardDiv{
+      height: 300px;
+      width: 300px;
       background-color:lightgray;
-      z-index: -1;
-
-  }
-
-  #addMemberDiv
-  {
-    height: 0px;
-    width: 0px;
-    position: absolute;
-    top: 30%;
-    left: 40%;
-    background-color:lightgray;
-    z-index: -1;
   }
     
     #mydivheader {
@@ -316,13 +299,6 @@ font-size: 25;
 font-weight: bold;
 }
 
-#profilecontent2
-{
-
-font-size: 35;
-font-weight: bold;
-}
-
 #usernameprofileedit
 {
   position: absolute;
@@ -332,12 +308,6 @@ font-weight: bold;
   cursor: pointer;
 }
 
-.koptext
-{
-  font-size: 15;
-  font-weight: bold;
-  
-}
 #biocontent
 {
   position: relative;
@@ -353,6 +323,7 @@ font-weight: bold;
   position: absolute;
   top: 20%;
   left: 40%;
+
 }
 
 #setingsbutton
