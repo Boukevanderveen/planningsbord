@@ -1,6 +1,5 @@
 <?php
 include("auth_session.php");
-include("headernarrow.php");
 require('db.php');
 ?>
 
