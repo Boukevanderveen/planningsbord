@@ -27,3 +27,31 @@ MYSQL wijzigingen:
 	`user4` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
 	PRIMARY KEY (id)
 );
+
+17-6-2022
+
+	CREATE TABLE `boards` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+	`description` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+	PRIMARY KEY (id)
+);
+
+24-6-2022
+
+ALTER TABLE `cards` ADD `boardId` INT NOT NULL AFTER `user4`;
+
+25-6-2022
+
+CREATE TABLE `planningbord`.`invites` ( `id` INT NOT NULL AUTO_INCREMENT , `boardId` INT NOT NULL , `username` VARCHAR(20) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `planningbord`.`boardmembers` ( `id` INT NOT NULL AUTO_INCREMENT , `boardId` INT NOT NULL , `username` VARCHAR(20) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+27-6-2022
+ALTER TABLE `boards` CHANGE `id` `id` INT(11) NOT NULL;
+
+27-6-2022
+ALTER TABLE `users` ADD `bio` VARCHAR(256) NOT NULL AFTER `create_datetime`;
+
+28-6-2022
+CREATE TABLE `planningbord`.`profilepicture` ( `id` INT NOT NULL AUTO_INCREMENT , `filename` VARCHAR(100) NOT NULL , `username` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

@@ -11,7 +11,7 @@
     //TEST
     // Als db.php niet in de directory zit gaat de code niet verder
     require('db.php');
-
+    session_id( 'auth' );
     session_start();
     // When form submitted, check and create user session.
     // Valideert of er input is in de username veld.
@@ -34,8 +34,8 @@
             //Checkt of je session nog dezelfde username bevat. Dus het checkt of dezelfde session voor de code hiervoor nog opereert.
             //Voordat deze session kapot gaat, wordt de username nog opgeslagen
             $_SESSION['username'] = $username;
-            // Redirect to user dashboard page
-            header("Location: dashboard.php");
+            // Redirect to user menu page
+            header("Location: menu.php");
         } else {
             echo "<div class='form'>
                   <h3>Incorrect Username/password.</h3><br/>
