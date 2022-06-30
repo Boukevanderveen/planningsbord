@@ -6,5 +6,10 @@ $sql = "DELETE FROM boards WHERE id = $boardId";
 if ($con->query($sql) === TRUE) 
 {
     $_SESSION["board"] = 0;
-    header("Location: menu.php");}
+    $sql = "DELETE * FROM invites WHERE boardId = '$boardId' AND username LIKE '$username'";    
+    if ($con->query($sql) === TRUE) 
+    {
+    header("Location: menu.php");
+    }
+}
 ?>

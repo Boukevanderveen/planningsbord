@@ -103,7 +103,29 @@ if (isset($_REQUEST['name'])) {
 if (isset($_REQUEST['username'])) {
     // removes backslashes
     $username = $_REQUEST['username'];
-    $query    = "INSERT into `invites` (username, boardId)
+
+    $sql_b = "SELECT * FROM boardmembers WHERE username='$username' AND boardId='$boardId'";
+    $res_b = mysqli_query($con, $sql_b);
+
+    if (mysqli_num_rows($res_b) > 0) {
+        echo "<div class='form'>
+            <h3>Sorry... can't send invite, has already been sent!</h3><br/>
+            <p class='link'>ga <a href='dashboard.php'> terug</a></p>
+            </div>";
+    }else{
+
+    $sql_i = "SELECT * FROM invites WHERE username='$username' AND boardId='$boardId'";
+    $res_i = mysqli_query($con, $sql_i);
+
+    if (mysqli_num_rows($res_i) > 0) {
+        echo "<div class='form'>
+            <h3>Sorry... can't send invite, has already been sent!</h3><br/>
+            <p class='link'>ga <a href='dashboard.php'> terug</a></p>
+            </div>";
+    }else{
+    }
+
+    $query    = "INSERT into invites (username, boardId)
                  VALUES ('$username', '$boardId')";
 
     $result   = mysqli_query($con, $query);
@@ -111,11 +133,8 @@ if (isset($_REQUEST['username'])) {
         echo '<script type="text/javascript">',
         refreshPage();
         '</script>';
-    } else {
-        echo "<div class='form'>
-              <h3>Required fields are missing.</h3><br/>
-              </div>";
-    }
+    } 
+}
 }
 
 
