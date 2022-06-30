@@ -4,6 +4,7 @@
     <meta charset="utf-8"/>
     <title>Login</title>
 <link rel="stylesheet" href="styling/style.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <?php
@@ -50,7 +51,7 @@
         <input type="text" class="login-input" name="username" placeholder="Username" autofocus="true"/>
         <input type="password" class="login-input" name="password" placeholder="Password"/>
         <input type="submit" value="Login" name="submit" class="login-button"/>
-        <p class="link">Don't have an account? <a href="registration.php">Registration Now</a></p>
+        <p class="link">Geen account? <a href="registration.php">Registreren</a></p>
   </form>
 <?php
     }

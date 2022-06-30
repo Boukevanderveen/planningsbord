@@ -28,6 +28,6 @@
 
 <nav class="navbar navbar-expand-lg navbar-secondary bg-secondary">
 <div id="newcardButton" class="btn btn-outline-primary my-2 my-sm-0" onclick="hideShowAddCard()">Nieuwe Kaart</button> </div>
-<div id="newcardButton" class="btn btn-outline-primary my-2 my-sm-0" onclick="hideShowAddMember()">Nieuw Lid Toevoegen</button> </div>
+<div id="newcardButton2" class="btn btn-outline-primary my-2 my-sm-0" onclick="hideShowAddMember()">Nieuw Lid Toevoegen</button> </div>
 
 </nav>

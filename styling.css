@@ -232,6 +232,8 @@ width: 10%;
 position: absolute;
 left: 83%;
 top: 10%;
+border-radius: 10px;
+cursor: pointer;
 
   }
 
@@ -243,6 +245,8 @@ width: 10%;
 position: absolute;
 left: 68%;
 top: 10%;
+border-radius: 10px;
+cursor: pointer;
   }
 
   .goToBoardButton
@@ -253,7 +257,8 @@ top: 10%;
     position: absolute;
     top: 60%;
     left: 5%;
-    border-radius: 2px;
+    border-radius: 10px;
+    cursor: pointer;
   }
   .goToBoardButtonText
   {
@@ -313,7 +318,7 @@ font-weight: bold;
   position: relative;
   font-weight: normal;
   top: 15px;
-  font-size: 14;
+  font-size: 20;
 }
 
 #profilepagepfp
@@ -323,7 +328,7 @@ font-weight: bold;
   position: absolute;
   top: 20%;
   left: 40%;
-
+  border-radius: 10px;
 }
 
 #setingsbutton
@@ -392,4 +397,20 @@ width: 14%;
 position: absolute;
 left: 2%;
 top: 20%;
+}
+
+#newcardButton2
+{
+    color: #fff;
+    background: #3a4b7b;
+    border-radius: 5px;
+    border: 0;
+    outline: 0;
+    width: 75px;
+    height: 40px;
+    font-size: 10px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    left: 3%;
 }

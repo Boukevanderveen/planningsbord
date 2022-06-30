@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <title>Registration</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 <link rel="stylesheet" href="styling/style.css"/>
 </head>
 <body>
@@ -45,12 +47,12 @@
 ?>
 
     <form class="form" action="" method="post">
-        <h1 class="login-title">Registration</h1>
+        <h1 class="login-title">Registratie</h1>
         <input type="text" class="login-input" name="username" placeholder="Username" required />
         <input type="text" class="login-input" name="email" placeholder="Email Adress">
         <input type="password" class="login-input" name="password" placeholder="Password">
         <input type="submit" name="submit" value="Register" class="login-button">
-        <p class="link">Already have an account? <a href="login.php">Login here</a></p>
+        <p class="link">Heb je all een account? <a href="login.php">Login</a></p>
     </form>
 <?php
     }
