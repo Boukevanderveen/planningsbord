@@ -12,10 +12,6 @@ require('db.php');
 <p id="reviewTag">For Review</p>
 <p id="doneTag">Done</p>
 
-
-
-<div id="newcardButton" class="btn btn-outline-primary my-2 my-sm-0" onclick="hideShowAddMember()">Nieuw Lid Toevoegen</button> </div>
-
 <script src="scriptfile.js">
 </script>
 <html>
@@ -25,7 +21,9 @@ require('db.php');
     <meta charset="utf-8">
     <title>Dashboard - Client area</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="styling.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
+
+    <link rel="stylesheet" href="styling.css"/>
 
 </head>
 <body onload="hideShowAddCard(), hideShowAddMember()">
@@ -62,6 +60,12 @@ require('db.php');
 
 
 <?php 
+
+if($_SESSION["board"] < 10000)
+{
+    header("Location: menu.php");
+}
+
 $boardId = $_SESSION["board"];
 
 displayistoDoCards($con, $boardId);
@@ -99,7 +103,29 @@ if (isset($_REQUEST['name'])) {
 if (isset($_REQUEST['username'])) {
     // removes backslashes
     $username = $_REQUEST['username'];
-    $query    = "INSERT into `invites` (username, boardId)
+
+    $sql_b = "SELECT * FROM boardmembers WHERE username='$username' AND boardId='$boardId'";
+    $res_b = mysqli_query($con, $sql_b);
+
+    if (mysqli_num_rows($res_b) > 0) {
+        echo "<div class='form'>
+            <h3>Sorry... can't send invite, has already been sent!</h3><br/>
+            <p class='link'>ga <a href='dashboard.php'> terug</a></p>
+            </div>";
+    }else{
+
+    $sql_i = "SELECT * FROM invites WHERE username='$username' AND boardId='$boardId'";
+    $res_i = mysqli_query($con, $sql_i);
+
+    if (mysqli_num_rows($res_i) > 0) {
+        echo "<div class='form'>
+            <h3>Sorry... can't send invite, has already been sent!</h3><br/>
+            <p class='link'>ga <a href='dashboard.php'> terug</a></p>
+            </div>";
+    }else{
+    }
+
+    $query    = "INSERT into invites (username, boardId)
                  VALUES ('$username', '$boardId')";
 
     $result   = mysqli_query($con, $query);
@@ -107,11 +133,8 @@ if (isset($_REQUEST['username'])) {
         echo '<script type="text/javascript">',
         refreshPage();
         '</script>';
-    } else {
-        echo "<div class='form'>
-              <h3>Required fields are missing.</h3><br/>
-              </div>";
-    }
+    } 
+}
 }
 
 
@@ -133,9 +156,13 @@ if (isset($_REQUEST['username'])) {
             $position += 13;
                  
             $divID = $value['id']; 
-            $board = $_SESSION["board"];
 
-            echo '<div id=' . $divID . ' style="position: absolute; left: 10%; top:' . $position. '%" class=cardsistoDo onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
+            echo '<div id=' . $divID . ' style="position: absolute; left: 10%; top:' . $position. '%" class=cardsistoDo onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> 
+            <td>
+            <button type="submit" onclick= runDeleteCardPHP("'.$divID.'") id="delete" style="position: absolute; left:75%; top: 70% width: 6%; " class="btn btn-danger">
+            <span class="bi bi-trash"></span> </td>
+            </div> ';
+
             echo "</div>";
             echo '<script type="text/javascript">',
             '</script>';
@@ -164,7 +191,10 @@ if (isset($_REQUEST['username'])) {
                  
                 $divID = $value['id']; 
     
-                echo '<div id=' . $divID . ' style="position: absolute; left: 30%; top:' . $position. '%" class=cardsisDoing onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
+                echo '<div id=' . $divID . ' style="position: absolute; left: 30%; top:' . $position. '%" class=cardsisDoing onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td>
+                <td>
+                <button type="submit" onclick= runDeleteCardPHP("'.$divID.'") id="delete" style="position: absolute; left:75%; top: 70% width: 6%; " class="btn btn-danger">
+                <span class="bi bi-trash"></span> </td>';
                 echo "</div>";
                 echo '<script type="text/javascript">',
                 '</script>';
@@ -191,9 +221,11 @@ if (isset($_REQUEST['username'])) {
                  
                 $divID = $value['id']; 
    
-               echo '<div id=' . $divID . ' style="position: absolute; left: 50%; top:' . $position. '%" class=cardsisReview onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
-               echo "</div>";
-               echo '<script type="text/javascript">',
+               echo '<div id=' . $divID . ' style="position: absolute; left: 50%; top:' . $position. '%" class=cardsisReview onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td>
+               <button type="submit" onclick= runDeleteCardPHP("'.$divID.'") id="delete" style="position: absolute; left:75%; top: 70% width: 6%; " class="btn btn-danger">
+               <td>
+               <span class="bi bi-trash"></span> </td>
+               </div>';
                '</script>';
                  }
         }
@@ -219,8 +251,11 @@ if (isset($_REQUEST['username'])) {
                  
                  $divID = $value['id']; 
     
-                echo '<div id=' . $divID . ' style="position: absolute; left: 70%; top:' . $position. '%" class=cardsisDone onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td> </div> ';
-                echo "</div>";
+                echo '<div id=' . $divID . ' style="position: absolute; left: 70%; top:' . $position. '%" class=cardsisDone onmouseover= startDrag("' . $divID. '");> <td>' . $value['name'] . " </td> <br> <td>" . $value['description'] . '</td>
+                <button type="submit" onclick= runDeleteCardPHP("'.$divID.'") id="delete" style="position: absolute; left:75%; top: 70% width: 6%; " class="btn btn-danger">
+                <td>
+                <span class="bi bi-trash"></span> </td>
+                </div>';
 
                  }
         }

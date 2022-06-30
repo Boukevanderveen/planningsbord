@@ -34,7 +34,7 @@ function acceptInvitation($boardId)
       data:dataString,
       url:'addMemberToBoard.php',
       success:function(data) {
-        refreshPage();
+        window.location.href = 'http://localhost/planningtoolbord/menu.php';
       }
   });
 }
@@ -161,7 +161,7 @@ function PostToUpdatephp(selectedCard, targetStatus)
 }
 
 function runPHP($boardId)
-{
+{ 
   var boardId = $boardId;
   var dataString = 'boardId='+boardId;
 
@@ -173,9 +173,88 @@ function runPHP($boardId)
       window.location.href = 'http://localhost/planningtoolbord/dashboard.php';
     }
 });
+
   
 }
 
+function runRemoveUserFromBoardPHP($username)
+{
+  selectedUser = $username;
+  var dataString = 'selectedUser='+selectedUser;
+
+  $.ajax({
+      type:'POST',
+      data:dataString,
+      url:'removeuserfromboard.php',
+      success:function(data) {
+        window.location.href = 'http://localhost/planningtoolbord/boardsettings.php';
+      }
+  });
+  
+}
+
+
+function runDeleteCardPHP($divID)
+{
+  selectedCard = $divID;
+  var dataString = 'selectedCard='+selectedCard;
+
+  $.ajax({
+      type:'POST',
+      data:dataString,
+      url:'removecard.php',
+      success:function(data) {
+      
+      }
+  });
+  
+}
+
+function runMakeUserAdminPHP($username)
+{
+  selectedUser = $username;
+  var dataString = 'selectedUser='+selectedUser;
+
+  $.ajax({
+      type:'POST',
+      data:dataString,
+      url:'updateusertoadmin.php',
+      success:function(data) {
+        window.location.href = 'http://localhost/planningtoolbord/boardsettings.php';
+      }
+  });
+}
+
+function runRemoveAdminFromUserPHP($username)
+{
+  selectedUser = $username;
+  var dataString = 'selectedUser='+selectedUser;
+  $.ajax({
+      type:'POST',
+      data:dataString,
+      url:'removeadminfromuser.php',
+      success:function(data) {
+        window.location.href = 'http://localhost/planningtoolbord/boardsettings.php';
+      }
+  });
+}
+
+
+function navigatetoboardsettings($boardId)
+{
+  var boardId = $boardId;
+  var dataString = 'boardId='+boardId;
+
+  $.ajax({
+    type:'POST',
+    data:dataString,
+    url:'navigatetoboardsettings.php',
+    success:function(data) {
+      window.location.href = 'http://localhost/planningtoolbord/boardsettings.php';
+    }
+});
+  
+}
 
 function log($board)
 {
@@ -186,4 +265,14 @@ function refreshPage()
 {
   window.location.reload(true); //true sets request type to GET
 
+}
+function goToConfirmBoardDeletion()
+{
+  window.location.href = 'http://localhost/planningtoolbord/confirmboarddeletion.php';
+}
+
+function goToBoardDeletion()
+{
+
+  window.location.href = 'http://localhost/planningtoolbord/boarddeletion.php';
 }

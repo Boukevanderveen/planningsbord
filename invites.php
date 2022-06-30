@@ -1,4 +1,5 @@
 <html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="styling.css"/>
 <script src="scriptfile.js">
 </script>
@@ -6,6 +7,7 @@
 <?php
 include("auth_session.php");
 require('db.php');
+include("headernarrow.php");
 
 $username = $_SESSION["username"];
 $sql = "SELECT * FROM invites WHERE username LIKE '$username'";
