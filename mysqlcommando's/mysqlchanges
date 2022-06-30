@@ -55,3 +55,10 @@ ALTER TABLE `users` ADD `bio` VARCHAR(256) NOT NULL AFTER `create_datetime`;
 
 28-6-2022
 CREATE TABLE `planningbord`.`profilepicture` ( `id` INT NOT NULL AUTO_INCREMENT , `filename` VARCHAR(100) NOT NULL , `username` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+29-6-2022
+ALTER TABLE `boardmembers` ADD `isAdmin` TINYINT NULL DEFAULT NULL AFTER `username`, ADD `isOwner` TINYINT NULL DEFAULT NULL AFTER `isAdmin`;
+
+ALTER TABLE `boardmembers` CHANGE `isAdmin` `isAdmin` INT(1) NULL DEFAULT NULL;
+
+ALTER TABLE `boardmembers` CHANGE `isOwner` `isOwner` INT(1) NULL DEFAULT NULL;

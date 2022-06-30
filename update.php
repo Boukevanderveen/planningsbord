@@ -1,6 +1,6 @@
 <?php
 require('db.php');
-
+require('auth_session.php');
     header("Location: login.php");
     $targetdivId = $_POST['selectedCard'];
     $targetStatus = $_POST['targetStatus'];

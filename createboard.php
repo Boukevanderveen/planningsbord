@@ -29,8 +29,8 @@ if (isset($_REQUEST['name'])) {
                  VALUES ('$id', '$name', '$description')";
     $result   = mysqli_query($con, $query);
     if ($result) {
-        $query = "INSERT into `boardmembers` (boardId, username)
-        VALUES ('$id','$username')";
+        $query = "INSERT into `boardmembers` (boardId, username, isOwner)
+        VALUES ('$id','$username', 1)";
         $result   = mysqli_query($con, $query);
         header("Location: menu.php");
         exit;

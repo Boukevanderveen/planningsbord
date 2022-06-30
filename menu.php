@@ -60,9 +60,9 @@ function displayBoards($con)
             {
             $position2 += 32;
             $topPosition = 60;
-            echo '<div class="boardsDisplay" style="position: absolute; top: ' . $topPosition. '%; left:' . $position2. '%" class=cardsistoDo;> <td>' . $value2['name'] . " </td> <br> <td>" . $value2['description'] . '</td> ';
-            echo '<div class="goToBoardButton"><p class="goToBoardButtonText"> Ga naar bord </p> </div> ';
-            echo "</div>";
+            echo '<div class="boardsDisplay" style="position: absolute; top: ' . $topPosition. '%; left:' . $position2. '%" class=cardsistoDo";> <td>' . $value2['name'] . " </td> <br> <td>" . $value2['description'] . '</td> ';
+            echo '<div class="goToBoardButton" onclick= runPHP("' . $boardId. '");> <p class="goToBoardButtonText"> Ga naar bord </p> </div> ';
+            echo '</div>';
             $topPositionCounter = 4;
             
     
