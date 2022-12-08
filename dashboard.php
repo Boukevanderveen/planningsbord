@@ -1,6 +1,9 @@
 <html>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 </html>
 <?php 
+
 include("auth_session.php");
 include("header.php");
 require('db.php');
